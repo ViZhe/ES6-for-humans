@@ -1,19 +1,19 @@
-# ES6 for Humans
+# ES6 для людей
 
 <br>
 
-### Table of Contents
+### Содержание
 
-* [`let`, `const` and block scoping](#1-let-const-and-block-scoping)
-* [Arrow Functions](#2-arrow-functions)
-* [Default Function Parameters](#3-default-function-parameters)
-* [Spread/Rest Operator](#4-spread--rest-operator)
+* [let, const и область видимости](#1-let-const-и-область-видимости)
+* [Стрелочные функции](#2-стрелочные-функции)
+* [Параметры функции по умолчанию](#3-Параметры-функции-по-умолчанию)
+* [Оператор расширения / Оставшиеся параметры](#4-оператор-расширения--оставшиеся-параметры)
 * [Object Literal Extensions](#5-object-literal-extensions)
 * [Octal and Binary Literals](#6-octal-and-binary-literals)
 * [Array and Object Destructuring](#7-array-and-object-destructuring)
 * [super in Objects](#8-super-in-objects)
 * [Template Literal and Delimiters](#9-template-literal-and-delimiters)
-* [for...of vs for...in](#10-forof-vs-forin)
+* [Отличия for...of и for...in](#10-отличия-forof-и-forin)
 * [Map and WeakMap](#11-map-and-weakmap)
 * [Set and WeakSet](#12-set-and-weakset)
 * [Classes in ES6](#13-classes-in-es6)
@@ -24,142 +24,144 @@
 
 <br>
 
-### Languages
+### Переводы
 
 * [Chinese Version (Thanks to barretlee)](http://www.barretlee.com/blog/2016/07/09/a-kickstarter-guide-to-writing-es6/)
 
 <br>
 
-### 1. let, const and block scoping
+### 1. let, const и область видимости
 
-`let` allows you to create declarations which are bound to any block, called block scoping. Instead of using `var`, which provides function scope, it is recommended to use `let` in ES6.
+*MDN:
+[let](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Statements/let),
+[const](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Statements/const)*
+
+
+Оператор `let` позволяет объявить локальную переменную с ограниченной текущим блоком кода областью видимости. В отличие от ключевого слова `var`, которое объявляет переменную глобально или локально во всей функции независимо от области блока. В ES6 рекомендуется использовать `let`.
 
 ```javascript
 var a = 2;
 {
-    let a = 3;
-    console.log(a); // 3
+  let a = 3;
+  console.log(a); // 3
 }
 console.log(a); // 2
 ```
-
-Another form of block-scoped declaration is the `const`, which creates constants. In ES6, a `const` represents a constant reference to a value. In other words, the value is not frozen, just the assignment of it. Here's a simple example:
+Оператор `const` создаёт новую константу. Имена констант подчиняются тем же правилам что и обычные переменные. Значение константы нельзя менять/перезаписывать. Также её нельзя объявить заново.
 
 ```javascript
 {
-    const ARR = [5,6];
-    ARR.push(7);
-    console.log(ARR); // [5,6,7]
-    ARR = 10; // TypeError
-    ARR[0] = 3; // value is not immutable
-    console.log(ARR); // [3,6,7]
+  const ARR = [5,6];
+  ARR.push(7);
+  console.log(ARR); // [5,6,7]
+  ARR = 10; // TypeError
+  ARR[0] = 3; // значение может изменяться
+  console.log(ARR); // [3,6,7]
 }
 ```
 
-A few things to keep in mind:
+Важно помнить:
 
-* Hoisting of `let` and `const` vary from the traditional hoisting of variables and functions. Both `let` and `const` are hoisted, but cannot be accessed before their declaration, because of [Temporal Dead Zone](http://jsrocks.org/2015/01/temporal-dead-zone-tdz-demystified/) 
+* Hoisting of `let` and `const` vary from the traditional hoisting of variables and functions. Both `let` and `const` are hoisted, but cannot be accessed before their declaration, because of [Temporal Dead Zone](http://jsrocks.org/2015/01/temporal-dead-zone-tdz-demystified/)
 * `let` and `const` are scoped to the nearest enclosing block.
-* When using `const`, use CAPITAL_CASING.
-* `const` has to be defined with its declaration.
+* Имя константы (`const`) принято писать прописными буквами.
+* Константа (`const`) должна быть определена при объявлении.
 
 <br>
 
-### 2. Arrow Functions
+### 2. Стрелочные функции
 
-Arrow Functions are a short-hand notation for writing functions in ES6. The arrow function definition consists of a parameter list `( ... )`, followed by the `=>` marker and a function body.
+Выражения стрелочных функций имеют более короткий синтаксис по сравнению с функциональными выражениями и лексически привязаны к значению `this` (но не привязаны к собственному `this`, `arguments`, `super`, `new.target`). Стрелочные функции всегда анонимные.
 
 ```javascript
-let addition = function(a,b) {
-    return a+b;
+let addition = function(a, b) {
+    return a + b;
 };
 
-// Implementation with Arrow Function
-let addition = (a,b) => a+b;
-```
-Note that in the above example, the `addition` arrow function is implemented with "concise body" which does not need an explicit return statement.
+// Реализация со стрелочной функцией
+let addition = (a, b) => a + b; // Краткая форма.
 
-Here is an example with the usual "block body"
-
-```javascript
-let arr = ['apple', 'banana', 'orange'];
-
-let breakfast = arr.map(fruit => {
-    return fruit + 's';
-});
-
-console.log(breakfast); // ['apples', 'bananas', 'oranges']
+let additions = (a, b) => { // Блочная форма.
+  return a + b
+};
 ```
 
-**Behold! There is more...**
+**Обратите внимание**, что в приведенном выше примере стрелочная функция с краткой формой возвращает полученное значение по умолчанию, а блочная форма требует явного возврата значения через `return`.
+
+**Это еще не всё...**
 
 Arrow functions don't just make the code shorter. They are closely related to `this` binding behavior.
+Стрелочные функции не только позволяют сократить код. ...
 
 Arrow functions behavior with `this` keyword varies from that of normal functions. Each function in JavaScript defines its own `this` context but Arrow functions capture the `this` value of the enclosing context. Check out the following code:
 
 ```javascript
 function Person() {
-    // The Person() constructor defines `this` as an instance of itself.
-    this.age = 0;
+  // В конструктор Person() `this` указывает на себя.
+  this.age = 0;
 
-    setInterval(function growUp() {
-        // In non-strict mode, the growUp() function defines `this`
-        // as the global object, which is different from the `this`
-        // defined by the Person() constructor.
-        this.age++;
-    }, 1000);
+  setInterval(function growUp() {
+    // В нестрогом режиме, в функции growUp() `this` указывает
+    // на глобальный объект, который отличается от `this`,
+    // определяемом в конструкторе Person().
+    this.age++;
+  }, 1000);
 }
+
 var p = new Person();
 ```
 
-In ECMAScript 3/5, this issue was fixed by assigning the value in `this` to a variable that could be closed over.
+В ECMAScript 3/5, данная проблема решалась присваиванием значения `this` близко расположенной переменной:
 
 ```javascript
 function Person() {
-    var self = this;
-    self.age = 0;
+  var self = this;
+  self.age = 0;
 
-    setInterval(function growUp() {
-        // The callback refers to the `self` variable of which
-        // the value is the expected object.
-        self.age++;
-    }, 1000);
+  setInterval(function growUp() {
+    // В функции используется переменная `self`, которая
+    // имеет значение требуемого объекта.
+    self.age++;
+  }, 1000);
 }
 ```
 
-As mentioned above, Arrow functions capture the this value of the enclosing context, so the following code works as expected.
+Как писалось выше, стрелочные функции захватывают значение `this` окружающего контекста, поэтому нижеприведенный код работает как предполагалось:
 
 ```javascript
 function Person(){
-    this.age = 0;
+  this.age = 0;
 
-    setInterval(() => {
-        this.age++; // `this` properly refers to the person object
-    }, 1000);
+  setInterval(() => {
+    this.age++; // `this` указывает на объект Person
+  }, 1000);
 }
 
 var p = new Person();
 ```
-[Read more about 'Lexical this' in arrow functions here](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions#Lexical_this)
+[Узнать больше о лексике this в стрелочных функциях (MDN)](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Functions/Arrow_functions#Лексика_this)
 
 <br>
 
-### 3. Default Function Parameters
+### 3. Параметры функции по умолчанию
 
-ES6 allows you to set default parameters in function definitions. Here is a simple illustration.
+ES6 позволет задавать формальным параметрам функции значения по умолчанию, если для них не указано значение или передан `undefined`.
 
 ```javascript
-let getFinalPrice = (price, tax=0.7) => price + price * tax;
-getFinalPrice(500); // 850
+let getFinalPrice = (price, tax=6) => (price + price) * tax;
+console.log(getFinalPrice(50));            // 600
+console.log(getFinalPrice(50, 2));         // 200
+console.log(getFinalPrice(50, null));      // 0
+console.log(getFinalPrice(50, 'string'));  // null
+console.log(getFinalPrice(50, undefined)); // 600
 ```
 
 <br>
 
-### 4. Spread / Rest Operator
+### 4. Оператор расширения / Оставшиеся параметры
 
-`...` operator is referred to as spread or rest operator, depending on how and where it is used.
-
-When used with any iterable, it acts as to "spread" it into individual elements:
+**Оператор расширения** позволяет расширять выражения в тех местах, где предусмотрено использование нескольких аргументов (при вызовах функции) или ожидается несколько элементов (для массивов).
+[(MDN)](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Operators/Spread_operator)
 
 ```javascript
 function foo(x,y,z) {
@@ -170,7 +172,8 @@ let arr = [1,2,3];
 foo(...arr); // 1 2 3
 ```
 
-The other common usage of `...` is gathering a set of values together into an array. This is referred as "rest" operator.
+Синтаксис **оставшихся параметров** функции позволяет представлять неограниченное множество аргументов в виде массива.
+[(MDN)](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Functions/Rest_parameters)
 
 ```javascript
 function foo(...args) {
@@ -192,9 +195,9 @@ function getCar(make, model, value) {
         // syntax, you can omit the property
         // value if key matches variable
         // name
-        make,  // same as make: make
-        model, // same as model: model
-        value, // same as value: value
+        make,  // эквивалентно: make: make
+        model, // эквивалентно: model: model
+        value, // эквивалентно: value: value
 
         // computed values now work with
         // object literals
@@ -265,6 +268,7 @@ console.log(a, b, c); // 4 5 6
 ### 8. super in Objects
 
 ES6 allows to use `super` method in (classless) objects with prototypes. Following is a simple example:
+ES6 позволяет использовать метод `super` в (бесклассовых) объектах с прототипами.
 
 ```javascript
 var parent = {
@@ -287,41 +291,54 @@ child.foo(); // Hello from the Parent
 
 <br>
 
-### 9. Template Literal and Delimiters
+### 9. Шаблонные строки
 
-ES6 introduces an easier way to add interpolation which are evaluated automatically.
+*MDN: [Template strings](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/template_strings)*
 
-* <code>\`${ ... }\`</code> is used for rendering the variables.
-* <code>\`</code> Backtick is used as delimiter.
+Шаблонные строки (шаблоны) является строковыми литералами, допускающими использование выражений.
+Вы можете использовать многострочные литералы и возможности интерполяции.
+
 
 ```javascript
 let user = 'Kevin';
 console.log(`Hi ${user}!`); // Hi Kevin!
+
+console.log(`5 + 5 = ${5 + 5}!`); // 5 + 5 = 10!
+
+console.log(`string text line 1
+string text line 2`);
+// string text line 1
+// string text line 2
 ```
 
 <br>
 
-### 10. for...of vs for...in
-* `for...of` iterates over iterable objects, such as array.
+### 10. Отличия for...of и for...in
+
+*MDN:
+[for...of](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Statements/for...of),
+[for...in](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Statements/for...in)*
+
+`for...of` обходит значения свойств.
 
 ```javascript
 let nicknames = ['di', 'boo', 'punkeye'];
 nicknames.size = 3;
 for (let nickname of nicknames) {
-    console.log(nickname);
+  console.log(nickname);
 }
 // di
 // boo
 // punkeye
 ```
 
-* `for...in` iterates over all enumerable properties of an object.
+`for...in` обходит имена свойств.
 
 ```javascript
 let nicknames = ['di', 'boo', 'punkeye'];
 nicknames.size = 3;
 for (let nickname in nicknames) {
-    console.log(nickname);
+  console.log(nickname);
 }
 // 0
 // 1
@@ -367,7 +384,7 @@ A `WeakMap` only has four methods `delete(key)`, `has(key)`, `get(key)` and `set
 
 ```javascript
 let w = new WeakMap();
-w.set('a', 'b'); 
+w.set('a', 'b');
 // Uncaught TypeError: Invalid value used as weak map key
 
 var o1 = {},
@@ -456,11 +473,11 @@ class Task {
     constructor() {
         console.log("task instantiated!");
     }
-    
+
     showId() {
         console.log(23);
     }
-    
+
     static loadAll() {
         console.log("Loading all tasks..");
     }

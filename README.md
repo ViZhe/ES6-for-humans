@@ -5,19 +5,19 @@
 ### Содержание
 
 * [let, const и область видимости](#1-let-const-и-область-видимости)
-* [Стрелочные функции](#2-стрелочные-функции)
+* [Стрелочные функции](#2-Стрелочные-функции)
 * [Параметры функции по умолчанию](#3-Параметры-функции-по-умолчанию)
-* [Оператор расширения / Оставшиеся параметры](#4-оператор-расширения--оставшиеся-параметры)
+* [Оператор расширения / Оставшиеся параметры](#4-Оператор-расширения--Оставшиеся-параметры)
 * [Object Literal Extensions](#5-object-literal-extensions)
-* [Octal and Binary Literals](#6-octal-and-binary-literals)
+* [Восьмеричные и Бинарные литералы](#6-Восьмеричные-и-Бинарные-литералы)
 * [Array and Object Destructuring](#7-array-and-object-destructuring)
 * [super in Objects](#8-super-in-objects)
 * [Template Literal and Delimiters](#9-template-literal-and-delimiters)
-* [Отличия for...of и for...in](#10-отличия-forof-и-forin)
+* [Отличия for...of и for...in](#10-Отличия-forof-и-forin)
 * [Map and WeakMap](#11-map-and-weakmap)
 * [Set and WeakSet](#12-set-and-weakset)
 * [Classes in ES6](#13-classes-in-es6)
-* [Symbol](#14-symbol)
+* [Символ](#14-Символ)
 * [Iterators](#15-iterators)
 * [Generators](#16-generators)
 * [Promises](#17-promises)
@@ -35,7 +35,6 @@
 *MDN:
 [let](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Statements/let),
 [const](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Statements/const)*
-
 
 Оператор `let` позволяет объявить локальную переменную с ограниченной текущим блоком кода областью видимости. В отличие от ключевого слова `var`, которое объявляет переменную глобально или локально во всей функции независимо от области блока. В ES6 рекомендуется использовать `let`.
 
@@ -160,12 +159,15 @@ console.log(getFinalPrice(50, undefined)); // 600
 
 ### 4. Оператор расширения / Оставшиеся параметры
 
+*MDN:
+[Spread operator](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Operators/Spread_operator),
+[Rest parameters](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Functions/Rest_parameters)*
+
 **Оператор расширения** позволяет расширять выражения в тех местах, где предусмотрено использование нескольких аргументов (при вызовах функции) или ожидается несколько элементов (для массивов).
-[(MDN)](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Operators/Spread_operator)
 
 ```javascript
 function foo(x,y,z) {
-    console.log(x,y,z);
+  console.log(x,y,z);
 }
 
 let arr = [1,2,3];
@@ -173,11 +175,10 @@ foo(...arr); // 1 2 3
 ```
 
 Синтаксис **оставшихся параметров** функции позволяет представлять неограниченное множество аргументов в виде массива.
-[(MDN)](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Functions/Rest_parameters)
 
 ```javascript
 function foo(...args) {
-    console.log(args);
+  console.log(args);
 }
 foo(1, 2, 3, 4, 5); // [1, 2, 3, 4, 5]
 ```
@@ -187,33 +188,33 @@ foo(1, 2, 3, 4, 5); // [1, 2, 3, 4, 5]
 ### 5. Object Literal Extensions
 
 ES6 allows declaring object literals by providing shorthand syntax for initializing properties from variables and defining function methods. It also enables the ability to have computed property keys in an object literal definition.
+ES6 позволяет объявлять литералы объекта
+
 
 ```javascript
 function getCar(make, model, value) {
-    return {
-        // with property value shorthand
-        // syntax, you can omit the property
-        // value if key matches variable
-        // name
-        make,  // эквивалентно: make: make
-        model, // эквивалентно: model: model
-        value, // эквивалентно: value: value
+  return {
+    // значение свойства можно опустить,
+    // если оно соответствует названию переменной
+    make,  // эквивалентно: make: make
+    model, // эквивалентно: model: model
+    value, // эквивалентно: value: value
 
-        // computed values now work with
-        // object literals
-        ['make' + make]: true,
+    // вычисляемые значения теперь работают
+    // с литералами объекта
+    ['make' + make]: true,
 
-        // Method definition shorthand syntax
-        // omits `function` keyword & colon
-        depreciate() {
-            this.value -= 2500;
-        }
-    };
+    // при определении метода сокращенным синтаксисом,
+    // опускается ключевое слово `function` и двоеточие
+    depreciate() {
+        this.value -= 2500;
+    }
+  };
 }
 
 let car = getCar('Kia', 'Sorento', 40000);
-
-// output: {
+console.log(car);
+// {
 //     make: 'Kia',
 //     model:'Sorento',
 //     value: 40000,
@@ -224,17 +225,20 @@ let car = getCar('Kia', 'Sorento', 40000);
 
 <br>
 
-### 6. Octal and Binary Literals
+### 6. Восьмеричные и Бинарные литералы
 
-ES6 has new support for octal and binary literals.
-Prependending a number with `0o` or `0O` would convert it into octal value. Have a look at the following code:
+*MDN:
+[Numeric literals](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Lexical_grammar#Numeric_literals)*
+
+В ES6 добавили поддержку восьмеричных и двоичных(бинарных) литералов.
+Добавьте перед числом `0o` или `0O` для получения его восьмеричного значения, либо `0b` или `0B` для бинарного.
 
 ```javascript
-let oValue = 0o10;
-console.log(oValue); // 8
+let octalValue = 0o10; // `0o` или `0O` - восьмеричный
+console.log(octalValue); // 8
 
-let bValue = 0b10; // 0b or 0B for binary
-console.log(bValue); // 2
+let binaryValue = 0b10; // `0b` или `0B` - бинарный
+console.log(binaryValue); // 2
 ```
 
 <br>
@@ -245,7 +249,7 @@ Destructuring helps in avoiding the need for temp variables when dealing with ob
 
 ```javascript
 function foo() {
-    return [1,2,3];
+  return [1,2,3];
 }
 let arr = foo(); // [1,2,3]
 
@@ -253,11 +257,11 @@ let [a, b, c] = foo();
 console.log(a, b, c); // 1 2 3
 
 function bar() {
-    return {
-        x: 4,
-        y: 5,
-        z: 6
-    };
+  return {
+    x: 4,
+    y: 5,
+    z: 6
+  };
 }
 let { x: a, y: b, z: c } = bar();
 console.log(a, b, c); // 4 5 6
@@ -272,16 +276,16 @@ ES6 позволяет использовать метод `super` в (беск�
 
 ```javascript
 var parent = {
-    foo() {
-        console.log("Hello from the Parent");
-    }
+  foo() {
+    console.log("Hello from the Parent");
+  }
 }
 
 var child = {
-    foo() {
-        super.foo();
-        console.log("Hello from the Child");
-    }
+  foo() {
+    super.foo();
+    console.log("Hello from the Child");
+  }
 }
 
 Object.setPrototypeOf(child, parent);
@@ -420,21 +424,21 @@ You can iterate over a set by insertion order using either the `forEach` method 
 
 ```javascript
 mySet.forEach((item) => {
-    console.log(item);
-    // 1
-    // 2
-    // 3
-    // 'strings'
-    // Object { a: 1, b: 2 }
+  console.log(item);
+  // 1
+  // 2
+  // 3
+  // 'strings'
+  // Object { a: 1, b: 2 }
 });
 
 for (let value of mySet) {
-    console.log(value);
-    // 1
-    // 2
-    // 3
-    // 'strings'
-    // Object { a: 1, b: 2 }
+  console.log(value);
+  // 1
+  // 2
+  // 3
+  // 'strings'
+  // Object { a: 1, b: 2 }
 }
 ```
 Sets also have the `delete()` and `clear()` methods.
@@ -470,17 +474,17 @@ Functions defined using the `static` keyword implement static/class functions on
 
 ```javascript
 class Task {
-    constructor() {
-        console.log("task instantiated!");
-    }
+  constructor() {
+    console.log("task instantiated!");
+  }
 
-    showId() {
-        console.log(23);
-    }
+  showId() {
+    console.log(23);
+  }
 
-    static loadAll() {
-        console.log("Loading all tasks..");
-    }
+  static loadAll() {
+    console.log("Loading all tasks..");
+  }
 }
 
 console.log(typeof Task); // function
@@ -495,16 +499,16 @@ Consider the following code:
 
 ```javascript
 class Car {
-    constructor() {
-        console.log("Creating a new car");
-    }
+  constructor() {
+    console.log("Creating a new car");
+  }
 }
 
 class Porsche extends Car {
-    constructor() {
-        super();
-        console.log("Creating Porsche");
-    }
+  constructor() {
+    super();
+    console.log("Creating Porsche");
+  }
 }
 
 let c = new Porsche();
@@ -525,32 +529,41 @@ A few things to keep in mind:
 
 <br>
 
-### 14. Symbol
+### 14. Символ
 
-A symbol is a unique and immutable data type introduced in ES6. The purpose of a symbol is to generate a unique identifier but you can never get any access to that identifier.
+*MDN:
+[Symbol](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Symbol)*
 
-Here’s how you create a symbol:
+Символ — это уникальный и неизменяемый тип данных, который может быть использован как идентификатор для свойств объектов. Задача символа в генерации уникального идентификатора значение которого получить нельзя.
+
+Создадим символ:
 
 ```javascript
 var sym = Symbol("some optional description");
 console.log(typeof sym); // symbol
 ```
 
-Note that you cannot use `new` with `Symbol(…)`.
-
-If a symbol is used as a property/key of an object, it’s stored in a special way that the property will not show up in a normal enumeration of the object’s properties.
+**Обратите внимание**, что оператор `new` нельзя использовать c `Symbol(…)`.
 
 ```javascript
-var o = {
-    val: 10,
-    [ Symbol("random") ]: "I'm a symbol",
-};
-
-console.log(Object.getOwnPropertyNames(o)); // val
+var sym = new Symbol(); // TypeError
 ```
 
-To retrieve an object’s symbol properties, use `Object.getOwnPropertySymbols(o)`
+Символы невидимы при итерации `for...in`. В дополнение к этому, `Object.getOwnPropertyNames()` не вернет символьные свойства объекта.
 
+```javascript
+var obj = {
+  val: 10,
+  [ Symbol("random") ]: "I'm a symbol",
+};
+
+console.log(Object.getOwnPropertyNames(obj)); // ["val"]
+for (var i in obj) {
+  console.log(i); // val
+}
+```
+
+Символьное свойство объекта можно получить с помощью `Object.getOwnPropertySymbols(obj)`.
 
 <br>
 
@@ -586,10 +599,10 @@ It is written using the new `*` syntax as well as the new `yield` keyword introd
 
 ```javascript
 function *infiniteNumbers() {
-    var n = 1;
-    while (true) {
-        yield n++;
-    }
+  var n = 1;
+  while (true) {
+    yield n++;
+  }
 }
 
 var numbers = infiniteNumbers(); // returns an iterable object
@@ -613,11 +626,11 @@ The standard way to create a Promise is by using the `new Promise()` constructor
 
 ```javascript
 var p = new Promise(function(resolve, reject) {  
-    if (/* condition */) {
-        resolve(/* value */);  // fulfilled successfully
-    } else {
-        reject(/* reason */);  // error, rejected
-    }
+  if (/* condition */) {
+    resolve(/* value */);  // fulfilled successfully
+  } else {
+    reject(/* reason */);  // error, rejected
+  }
 });
 ```
 
@@ -631,30 +644,30 @@ p.then((val) => console.log("Promise Resolved", val),
 Returning a value from `then` callbacks will pass the value to the next `then` callback.
 
 ```javascript
-var hello = new Promise(function(resolve, reject) {  
-    resolve("Hello");
+var hello = new Promise(function(resolve, reject) {
+  resolve("Hello");
 });
 
 hello.then((str) => `${str} World`)
-     .then((str) => `${str}!`)
-     .then((str) => console.log(str)) // Hello World!
+  .then((str) => `${str}!`)
+  .then((str) => console.log(str)) // Hello World!
 ```
 
 When returning a promise, the resolved value of the promise will get passed to the next callback to effectively chain them together.
 This is a simple technique to avoid "callback hell".
 
 ```javascript
-var p = new Promise(function(resolve, reject) {  
-    resolve(1);
+var p = new Promise(function(resolve, reject) {
+  resolve(1);
 });
 
 var eventuallyAdd1 = (val) => {
-    return new Promise(function(resolve, reject){
-        resolve(val + 1);
-    });
+  return new Promise(function(resolve, reject) {
+    resolve(val + 1);
+  });
 }
 
 p.then(eventuallyAdd1)
- .then(eventuallyAdd1)
- .then((val) => console.log(val)) // 3
+  .then(eventuallyAdd1)
+  .then((val) => console.log(val)) // 3
 ```

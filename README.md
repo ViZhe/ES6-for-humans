@@ -10,16 +10,16 @@
 * [Оператор расширения / Оставшиеся параметры](#4-Оператор-расширения--Оставшиеся-параметры)
 * [Object Literal Extensions](#5-object-literal-extensions)
 * [Восьмеричные и Бинарные литералы](#6-Восьмеричные-и-Бинарные-литералы)
-* [Array and Object Destructuring](#7-array-and-object-destructuring)
-* [super in Objects](#8-super-in-objects)
-* [Template Literal and Delimiters](#9-template-literal-and-delimiters)
+* [Реструктуризация массивов и объектов](#7-Реструктуризация-массивов-и-объектов)
+* [super в объектах](#8-super-в-объектах)
+* [Шаблонные строки](#9-Шаблонные-строки)
 * [Отличия for...of и for...in](#10-Отличия-forof-и-forin)
 * [Map and WeakMap](#11-map-and-weakmap)
 * [Set and WeakSet](#12-set-and-weakset)
 * [Classes in ES6](#13-classes-in-es6)
 * [Символ](#14-Символ)
-* [Iterators](#15-iterators)
-* [Generators](#16-generators)
+* [Итераторы](#15-Итераторы)
+* [Генераторы](#16-Генераторы)
 * [Promises](#17-promises)
 
 <br>
@@ -39,23 +39,23 @@
 Оператор `let` позволяет объявить локальную переменную с ограниченной текущим блоком кода областью видимости. В отличие от ключевого слова `var`, которое объявляет переменную глобально или локально во всей функции независимо от области блока. В ES6 рекомендуется использовать `let`.
 
 ```javascript
-var a = 2;
+var a = 2
 {
-  let a = 3;
-  console.log(a); // 3
+  let a = 3
+  console.log(a) // 3
 }
-console.log(a); // 2
+console.log(a) // 2
 ```
 Оператор `const` создаёт новую константу. Имена констант подчиняются тем же правилам что и обычные переменные. Значение константы нельзя менять/перезаписывать. Также её нельзя объявить заново.
 
 ```javascript
 {
-  const ARR = [5,6];
-  ARR.push(7);
-  console.log(ARR); // [5,6,7]
-  ARR = 10; // TypeError
-  ARR[0] = 3; // значение может изменяться
-  console.log(ARR); // [3,6,7]
+  const ARR = [5,6]
+  ARR.push(7)
+  console.log(ARR) // [5,6,7]
+  ARR = 10 // TypeError
+  ARR[0] = 3 // значение может изменяться
+  console.log(ARR) // [3,6,7]
 }
 ```
 
@@ -74,15 +74,15 @@ console.log(a); // 2
 
 ```javascript
 let addition = function(a, b) {
-    return a + b;
-};
+    return a + b
+}
 
 // Реализация со стрелочной функцией
-let addition = (a, b) => a + b; // Краткая форма.
+let addition = (a, b) => a + b // Краткая форма.
 
 let additions = (a, b) => { // Блочная форма.
   return a + b
-};
+}
 ```
 
 **Обратите внимание**, что в приведенном выше примере стрелочная функция с краткой формой возвращает полученное значение по умолчанию, а блочная форма требует явного возврата значения через `return`.
@@ -97,14 +97,14 @@ Arrow functions behavior with `this` keyword varies from that of normal function
 ```javascript
 function Person() {
   // В конструктор Person() `this` указывает на себя.
-  this.age = 0;
+  this.age = 0
 
   setInterval(function growUp() {
     // В нестрогом режиме, в функции growUp() `this` указывает
     // на глобальный объект, который отличается от `this`,
     // определяемом в конструкторе Person().
-    this.age++;
-  }, 1000);
+    this.age++
+  }, 1000)
 }
 
 var p = new Person();
@@ -114,14 +114,14 @@ var p = new Person();
 
 ```javascript
 function Person() {
-  var self = this;
-  self.age = 0;
+  var self = this
+  self.age = 0
 
   setInterval(function growUp() {
     // В функции используется переменная `self`, которая
     // имеет значение требуемого объекта.
-    self.age++;
-  }, 1000);
+    self.age++
+  }, 1000)
 }
 ```
 
@@ -129,14 +129,14 @@ function Person() {
 
 ```javascript
 function Person(){
-  this.age = 0;
+  this.age = 0
 
   setInterval(() => {
-    this.age++; // `this` указывает на объект Person
-  }, 1000);
+    this.age++ // `this` указывает на объект Person
+  }, 1000)
 }
 
-var p = new Person();
+var p = new Person()
 ```
 [Узнать больше о лексике this в стрелочных функциях (MDN)](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Functions/Arrow_functions#Лексика_this)
 
@@ -148,11 +148,11 @@ ES6 позволет задавать формальным параметрам 
 
 ```javascript
 let getFinalPrice = (price, tax=6) => (price + price) * tax;
-console.log(getFinalPrice(50));            // 600
-console.log(getFinalPrice(50, 2));         // 200
-console.log(getFinalPrice(50, null));      // 0
-console.log(getFinalPrice(50, 'string'));  // null
-console.log(getFinalPrice(50, undefined)); // 600
+console.log(getFinalPrice(50))            // 600
+console.log(getFinalPrice(50, 2))         // 200
+console.log(getFinalPrice(50, null))      // 0
+console.log(getFinalPrice(50, 'string'))  // null
+console.log(getFinalPrice(50, undefined)) // 600
 ```
 
 <br>
@@ -167,20 +167,20 @@ console.log(getFinalPrice(50, undefined)); // 600
 
 ```javascript
 function foo(x,y,z) {
-  console.log(x,y,z);
+  console.log(x,y,z)
 }
 
-let arr = [1,2,3];
-foo(...arr); // 1 2 3
+let arr = [1,2,3]
+foo(...arr) // 1 2 3
 ```
 
 Синтаксис **оставшихся параметров** функции позволяет представлять неограниченное множество аргументов в виде массива.
 
 ```javascript
 function foo(...args) {
-  console.log(args);
+  console.log(args)
 }
-foo(1, 2, 3, 4, 5); // [1, 2, 3, 4, 5]
+foo(1, 2, 3, 4, 5) // [1, 2, 3, 4, 5]
 ```
 
 <br>
@@ -207,13 +207,13 @@ function getCar(make, model, value) {
     // при определении метода сокращенным синтаксисом,
     // опускается ключевое слово `function` и двоеточие
     depreciate() {
-        this.value -= 2500;
+        this.value -= 2500
     }
   };
 }
 
-let car = getCar('Kia', 'Sorento', 40000);
-console.log(car);
+let car = getCar('Kia', 'Sorento', 40000)
+console.log(car)
 // {
 //     make: 'Kia',
 //     model:'Sorento',
@@ -234,63 +234,61 @@ console.log(car);
 Добавьте перед числом `0o` или `0O` для получения его восьмеричного значения, либо `0b` или `0B` для бинарного.
 
 ```javascript
-let octalValue = 0o10; // `0o` или `0O` - восьмеричный
-console.log(octalValue); // 8
+let octalValue = 0o10 // `0o` или `0O` - восьмеричный
+console.log(octalValue) // 8
 
-let binaryValue = 0b10; // `0b` или `0B` - бинарный
-console.log(binaryValue); // 2
+let binaryValue = 0b10 // `0b` или `0B` - бинарный
+console.log(binaryValue) // 2
 ```
 
 <br>
 
-### 7. Array and Object Destructuring
+### 7. Реструктуризация массивов и объектов
 
-Destructuring helps in avoiding the need for temp variables when dealing with object and arrays.
+*MDN:
+[Destructuring assignment](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment)*
+
+Реструктуризация помогает избежать необъодимости создавать временные переменные при работе с массивами и объектами.
 
 ```javascript
-function foo() {
-  return [1,2,3];
-}
-let arr = foo(); // [1,2,3]
+const arr = [1,2,3]
+let [a, b, c] = arr
+console.log(a, b, c) // 1 2 3
 
-let [a, b, c] = foo();
-console.log(a, b, c); // 1 2 3
-
-function bar() {
-  return {
-    x: 4,
-    y: 5,
-    z: 6
-  };
+const obj =  {
+  x: 4,
+  y: 5,
+  z: 6
 }
-let { x: a, y: b, z: c } = bar();
-console.log(a, b, c); // 4 5 6
+let { x: aX, y: bY, z: cZ } = obj
+console.log(aX, bY, cZ) // 4 5 6
 ```
 
 <br>
 
-### 8. super in Objects
+### 8. super в объектах
 
-ES6 allows to use `super` method in (classless) objects with prototypes. Following is a simple example:
+*MDN: [Super](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Operators/super)*
+
 ES6 позволяет использовать метод `super` в (бесклассовых) объектах с прототипами.
 
 ```javascript
 var parent = {
   foo() {
-    console.log("Hello from the Parent");
+    console.log("Hello from the Parent")
   }
 }
 
 var child = {
   foo() {
-    super.foo();
-    console.log("Hello from the Child");
+    super.foo()
+    console.log("Hello from the Child")
   }
 }
 
-Object.setPrototypeOf(child, parent);
-child.foo(); // Hello from the Parent
-             // Hello from the Child
+Object.setPrototypeOf(child, parent)
+child.foo() // Hello from the Parent
+            // Hello from the Child
 ```
 
 <br>
@@ -304,13 +302,13 @@ child.foo(); // Hello from the Parent
 
 
 ```javascript
-let user = 'Kevin';
-console.log(`Hi ${user}!`); // Hi Kevin!
+let user = 'Kevin'
+console.log(`Hi ${user}!`) // Hi Kevin!
 
-console.log(`5 + 5 = ${5 + 5}!`); // 5 + 5 = 10!
+console.log(`5 + 5 = ${5 + 5}!`) // 5 + 5 = 10!
 
 console.log(`string text line 1
-string text line 2`);
+string text line 2`)
 // string text line 1
 // string text line 2
 ```
@@ -326,10 +324,10 @@ string text line 2`);
 `for...of` обходит значения свойств.
 
 ```javascript
-let nicknames = ['di', 'boo', 'punkeye'];
-nicknames.size = 3;
+let nicknames = ['di', 'boo', 'punkeye']
+nicknames.size = 3
 for (let nickname of nicknames) {
-  console.log(nickname);
+  console.log(nickname)
 }
 // di
 // boo
@@ -339,10 +337,10 @@ for (let nickname of nicknames) {
 `for...in` обходит имена свойств.
 
 ```javascript
-let nicknames = ['di', 'boo', 'punkeye'];
-nicknames.size = 3;
+let nicknames = ['di', 'boo', 'punkeye']
+nicknames.size = 3
 for (let nickname in nicknames) {
-  console.log(nickname);
+  console.log(nickname)
 }
 // 0
 // 1
@@ -359,7 +357,7 @@ ES6 introduces new set of data structures called `Map` and `WeakMap`. Now, we ac
 An object is made of keys (always strings) and values, whereas in `Map`, any value (both objects and primitive values) may be used as either a key or a value. Have a look at this piece of code:
 
 ```javascript
-var myMap = new Map();
+var myMap = new Map()
 
 var keyString = "a string",
     keyObj = {},
@@ -373,9 +371,9 @@ myMap.set(keyFunc, "value associated with keyFunc");
 myMap.size; // 3
 
 // getting the values
-myMap.get(keyString);    // "value associated with 'a string'"
-myMap.get(keyObj);       // "value associated with keyObj"
-myMap.get(keyFunc);      // "value associated with keyFunc"
+myMap.get(keyString)    // "value associated with 'a string'"
+myMap.get(keyObj)       // "value associated with keyObj"
+myMap.get(keyFunc)      // "value associated with keyFunc"
 ```
 
 **WeakMap**
@@ -387,23 +385,23 @@ Another thing to note here- in `WeakMap` as opposed to `Map` *every key must be 
 A `WeakMap` only has four methods `delete(key)`, `has(key)`, `get(key)` and `set(key, value)`.
 
 ```javascript
-let w = new WeakMap();
-w.set('a', 'b');
+let w = new WeakMap()
+w.set('a', 'b')
 // Uncaught TypeError: Invalid value used as weak map key
 
-var o1 = {},
-    o2 = function(){},
-    o3 = window;
+let o1 = {}
+let o2 = function(){}
+let o3 = window
 
-w.set(o1, 37);
-w.set(o2, "azerty");
-w.set(o3, undefined);
+w.set(o1, 37)
+w.set(o2, "azerty")
+w.set(o3, undefined)
 
-w.get(o3); // undefined, because that is the set value
+w.get(o3) // undefined, потому что мы установили это значение
 
-w.has(o1); // true
-w.delete(o1);
-w.has(o1); // false
+w.has(o1) // true
+w.delete(o1)
+w.has(o1) // false
 ```
 
 <br>
@@ -413,27 +411,27 @@ w.has(o1); // false
 Set objects are collections of unique values. Duplicate values are ignored, as the collection must have all unique values. The values can be primitive types or object references.
 
 ```javascript
-let mySet = new Set([1, 1, 2, 2, 3, 3]);
-mySet.size; // 3
-mySet.has(1); // true
-mySet.add('strings');
-mySet.add({ a: 1, b:2 });
+let mySet = new Set([1, 1, 2, 2, 3, 3])
+mySet.size // 3
+mySet.has(1) // true
+mySet.add('strings')
+mySet.add({ a: 1, b:2 })
 ```
 
 You can iterate over a set by insertion order using either the `forEach` method or the `for...of` loop.
 
 ```javascript
 mySet.forEach((item) => {
-  console.log(item);
+  console.log(item)
   // 1
   // 2
   // 3
   // 'strings'
   // Object { a: 1, b: 2 }
-});
+})
 
 for (let value of mySet) {
-  console.log(value);
+  console.log(value)
   // 1
   // 2
   // 3
@@ -448,18 +446,18 @@ Sets also have the `delete()` and `clear()` methods.
 Similar to `WeakMap`, the `WeakSet` object lets you store weakly held *objects* in a collection. An object in the `WeakSet` occurs only once; it is unique in the WeakSet's collection.
 
 ```javascript
-var ws = new WeakSet();
-var obj = {};
-var foo = {};
+var ws = new WeakSet()
+var obj = {}
+var foo = {}
 
-ws.add(window);
-ws.add(obj);
+ws.add(window)
+ws.add(obj)
 
-ws.has(window); // true
-ws.has(foo);    // false, foo has not been added to the set
+ws.has(window) // true
+ws.has(foo)    // false, foo has not been added to the set
 
-ws.delete(window); // removes window from the set
-ws.has(window);    // false, window has been removed
+ws.delete(window) // removes window from the set
+ws.has(window)    // false, window has been removed
 ```
 
 <br>
@@ -475,15 +473,15 @@ Functions defined using the `static` keyword implement static/class functions on
 ```javascript
 class Task {
   constructor() {
-    console.log("task instantiated!");
+    console.log("task instantiated!")
   }
 
   showId() {
-    console.log(23);
+    console.log(23)
   }
 
   static loadAll() {
-    console.log("Loading all tasks..");
+    console.log("Loading all tasks..")
   }
 }
 
@@ -500,14 +498,14 @@ Consider the following code:
 ```javascript
 class Car {
   constructor() {
-    console.log("Creating a new car");
+    console.log("Creating a new car")
   }
 }
 
 class Porsche extends Car {
   constructor() {
-    super();
-    console.log("Creating Porsche");
+    super()
+    console.log("Creating Porsche")
   }
 }
 
@@ -552,14 +550,14 @@ var sym = new Symbol(); // TypeError
 Символы невидимы при итерации `for...in`. В дополнение к этому, `Object.getOwnPropertyNames()` не вернет символьные свойства объекта.
 
 ```javascript
-var obj = {
+let obj = {
   val: 10,
-  [ Symbol("random") ]: "I'm a symbol",
-};
+  [ Symbol("random") ]: "I'm a symbol"
+}
 
 console.log(Object.getOwnPropertyNames(obj)); // ["val"]
-for (var i in obj) {
-  console.log(i); // val
+for (let i in obj) {
+  console.log(i) // val
 }
 ```
 
@@ -567,69 +565,80 @@ for (var i in obj) {
 
 <br>
 
-### 15. Iterators
+### 15. Итераторы
 
-An iterator accesses the items from a collection one at a time, while keeping track of its current position within that sequence. It provides a `next()` method which returns the next item in the sequence. This method returns an object with two properties: done and value.
+*MDN:
+[Iterators](https://developer.mozilla.org/ru/docs/Web/JavaScript/Guide/Iterators_and_Generators#Итераторы)*
+
+An iterator accesses the items from a collection one at a time, while keeping track of its current position within that sequence.
+Это обеспечивает метод `next()`, который возвращает следующий элемент в последовательности. Этот метод возвращает объект с 2 свойствами: **done** и **value**.
 
 ES6 has `Symbol.iterator` which specifies the default iterator for an object. Whenever an object needs to be iterated (such as at the beginning of a for..of loop), its @@iterator method is called with no arguments, and the returned iterator is used to obtain the values to be iterated.
 
 Let’s look at an array, which is an iterable, and the iterator it can produce to consume its values:
 
 ```javascript
-var arr = [11,12,13];
-var itr = arr[Symbol.iterator]();
+let arr = [11, 12, 13]
+let itr = arr[Symbol.iterator]()
 
-itr.next(); // { value: 11, done: false }
-itr.next(); // { value: 12, done: false }
-itr.next(); // { value: 13, done: false }
+console.log(itr.next()) // { value: 11, done: false }
+console.log(itr.next()) // { value: 12, done: false }
+console.log(itr.next()) // { value: 13, done: false }
 
-itr.next(); // { value: undefined, done: true }
+console.log(itr.next()) // { value: undefined, done: true }
 ```
 
 Note that you can write custom iterators by defining `obj[Symbol.iterator]()` with the object definition.
 
 <br>
 
-### 16. Generators
+### 16. Генераторы
 
-Generator functions are a new feature in ES6 that allow a function to generate many values over time by returning an object which can be iterated over to pull values from the function one value at a time.
+*MDN:
+[Generators](https://developer.mozilla.org/ru/docs/Web/JavaScript/Guide/Iterators_and_Generators#Генераторы)*
 
-A generator function returns an **iterable object** when it's called.
-It is written using the new `*` syntax as well as the new `yield` keyword introduced in ES6.
+Генераторы — это специальный тип функции, который работает как фабрика итераторов. Функция становится генератором, если содержит один или более `yield` операторов и использует `function*` синтаксис.
+
+Генераторы позволяют определить алгоритм перебора, написав единственную функцию, которая умеет поддерживать собственное состояние.
 
 ```javascript
 function *infiniteNumbers() {
-  var n = 1;
+  let n = 1
   while (true) {
-    yield n++;
+    yield n++
   }
 }
 
-var numbers = infiniteNumbers(); // returns an iterable object
+let numbers = infiniteNumbers(); // возвращает итерируемый объект
 
-numbers.next(); // { value: 1, done: false }
-numbers.next(); // { value: 2, done: false }
-numbers.next(); // { value: 3, done: false }
+console.log(numbers.next()) // { value: 1, done: false }
+console.log(numbers.next()) // { value: 2, done: false }
+console.log(numbers.next()) // { value: 3, done: false }
 ```
 
-Each time yield is called, the yielded value becomes the next value in the sequence.
+После каждого вызова генератор получает следующее в последовательности значение.
 
-Also, note that generators compute their yielded values on demand, which allows them to efficiently represent sequences that are expensive to compute, or even infinite sequences.
+**Обратите внимание**, что генераторы вычисляют значение по требованию, это позволяет им эффективно вычислять даже бесконечные последовательности.
 
 <br>
 
-### 17. Promises
+### 17. Promise
 
-ES6 has native support for promises. A promise is an object that is waiting for an asynchronous operation to complete, and when that operation completes, the promise is either fulfilled(resolved) or rejected.
+*MDN:
+[Promise](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Promise)*
 
-The standard way to create a Promise is by using the `new Promise()` constructor which accepts a handler that is given two functions as parameters. The first handler (typically named `resolve`) is a function to call with the future value when it's ready; and the second handler (typically named `reject`) is a function to call to reject the Promise if it can't resolve the future value.
+Интерфейс **Promise** (обещание) представляет собой обертку для значения, неизвестного на момент создания обещания. Он позволяет обрабатывать результаты асинхронных операций так, как если бы они были синхронными: вместо конечного результата асинхронного метода возвращается обещание получить результат в некоторый момент в будущем.
+
+При создании Обещание находится в ожидании (pending), а затем может стать выполнено (fulfilled), вернув полученный результат (значение), или отклонено (rejected), вернув причину отказа. В любом из этих случаев вызывается обработчик, прикрепленный к обещанию методом `then`. Если в момент прикрепления обработчика обещание уже сдержано или нарушено, он все равно будет выполнен, т.е. между выполнением обещания и прикреплением обработчика нет «состояния гонки», как, например, в случае с событиями в DOM.
+
+Для создания обещания используется конструктор `new Promise()`, который принимает обработчик. Этот обработчик получает две функции в качестве аргументов. Первый аргумент (обычно называют `resolve`) вызывает успешное выполнение обещания. Второй (обычно называют `reject`) отклоняет это обещание.
 
 ```javascript
-var p = new Promise(function(resolve, reject) {  
-  if (/* condition */) {
-    resolve(/* value */);  // fulfilled successfully
+var p = new Promise(function(resolve, reject) {
+  if (/* условие */) {
+    resolve(/* значение */)  // операция завершена успешно
   } else {
-    reject(/* reason */);  // error, rejected
+    reject(/* причина */)  // операция завершена с ошибкой.
   }
 });
 ```
@@ -638,15 +647,15 @@ Every Promise has a method named `then` which takes a pair of callbacks. The fir
 
 ```javascript
 p.then((val) => console.log("Promise Resolved", val),
-       (err) => console.log("Promise Rejected", err));
+       (err) => console.log("Promise Rejected", err))
 ```
 
 Returning a value from `then` callbacks will pass the value to the next `then` callback.
 
 ```javascript
 var hello = new Promise(function(resolve, reject) {
-  resolve("Hello");
-});
+  resolve("Hello")
+})
 
 hello.then((str) => `${str} World`)
   .then((str) => `${str}!`)
@@ -658,12 +667,12 @@ This is a simple technique to avoid "callback hell".
 
 ```javascript
 var p = new Promise(function(resolve, reject) {
-  resolve(1);
+  resolve(1)
 });
 
 var eventuallyAdd1 = (val) => {
   return new Promise(function(resolve, reject) {
-    resolve(val + 1);
+    resolve(val + 1)
   });
 }
 

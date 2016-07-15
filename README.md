@@ -16,17 +16,19 @@
 * [Отличия for...of и for...in](#10-Отличия-forof-и-forin)
 * [Map and WeakMap](#11-map-and-weakmap)
 * [Set and WeakSet](#12-set-and-weakset)
-* [Classes in ES6](#13-classes-in-es6)
+* [Классы в ES6](#13-Классы-в-es6)
 * [Символ](#14-Символ)
 * [Итераторы](#15-Итераторы)
 * [Генераторы](#16-Генераторы)
-* [Promises](#17-promises)
+* [Promise (Обещание)](#17-promise)
 
 <br>
 
 ### Переводы
 
-* [Chinese Version (Thanks to barretlee)](http://www.barretlee.com/blog/2016/07/09/a-kickstarter-guide-to-writing-es6/)
+* [English version (metagrover)](https://github.com/metagrover/ES6-for-humans)
+* [Chinese Version (barretlee)](http://www.barretlee.com/blog/2016/07/09/a-kickstarter-guide-to-writing-es6/)
+* [Portuguese Version (alexmoreno)](https://github.com/alexmoreno/ES6-para-humanos)
 
 <br>
 
@@ -107,7 +109,7 @@ function Person() {
   }, 1000)
 }
 
-var p = new Person();
+var p = new Person()
 ```
 
 В ECMAScript 3/5, данная проблема решалась присваиванием значения `this` близко расположенной переменной:
@@ -147,7 +149,7 @@ var p = new Person()
 ES6 позволет задавать формальным параметрам функции значения по умолчанию, если для них не указано значение или передан `undefined`.
 
 ```javascript
-let getFinalPrice = (price, tax=6) => (price + price) * tax;
+let getFinalPrice = (price, tax=6) => (price + price) * tax
 console.log(getFinalPrice(50))            // 600
 console.log(getFinalPrice(50, 2))         // 200
 console.log(getFinalPrice(50, null))      // 0
@@ -166,18 +168,18 @@ console.log(getFinalPrice(50, undefined)) // 600
 **Оператор расширения** позволяет расширять выражения в тех местах, где предусмотрено использование нескольких аргументов (при вызовах функции) или ожидается несколько элементов (для массивов).
 
 ```javascript
-function foo(x,y,z) {
-  console.log(x,y,z)
+function foo(x, y, z) {
+  console.log(x, y, z)
 }
 
-let arr = [1,2,3]
+let arr = [1, 2, 3]
 foo(...arr) // 1 2 3
 ```
 
 Синтаксис **оставшихся параметров** функции позволяет представлять неограниченное множество аргументов в виде массива.
 
 ```javascript
-function foo(...args) {
+const foo = (...args) => {
   console.log(args)
 }
 foo(1, 2, 3, 4, 5) // [1, 2, 3, 4, 5]
@@ -192,7 +194,7 @@ ES6 позволяет объявлять литералы объекта
 
 
 ```javascript
-function getCar(make, model, value) {
+const getCar = (make, model, value) => {
   return {
     // значение свойства можно опустить,
     // если оно соответствует названию переменной
@@ -209,7 +211,7 @@ function getCar(make, model, value) {
     depreciate() {
         this.value -= 2500
     }
-  };
+  }
 }
 
 let car = getCar('Kia', 'Sorento', 40000)
@@ -251,16 +253,16 @@ console.log(binaryValue) // 2
 Реструктуризация помогает избежать необъодимости создавать временные переменные при работе с массивами и объектами.
 
 ```javascript
-const arr = [1,2,3]
+const arr = [1, 2, 3]
 let [a, b, c] = arr
 console.log(a, b, c) // 1 2 3
 
-const obj =  {
+const obj = {
   x: 4,
   y: 5,
   z: 6
 }
-let { x: aX, y: bY, z: cZ } = obj
+let {x: aX, y: bY, z: cZ} = obj
 console.log(aX, bY, cZ) // 4 5 6
 ```
 
@@ -273,16 +275,16 @@ console.log(aX, bY, cZ) // 4 5 6
 ES6 позволяет использовать метод `super` в (бесклассовых) объектах с прототипами.
 
 ```javascript
-var parent = {
+const parent = {
   foo() {
-    console.log("Hello from the Parent")
+    console.log('Hello from the Parent')
   }
 }
 
-var child = {
+const child = {
   foo() {
     super.foo()
-    console.log("Hello from the Child")
+    console.log('Hello from the Child')
   }
 }
 
@@ -359,14 +361,14 @@ An object is made of keys (always strings) and values, whereas in `Map`, any val
 ```javascript
 var myMap = new Map()
 
-var keyString = "a string",
+var keyString = 'a string',
     keyObj = {},
-    keyFunc = function () {};
+    keyFunc = function () {}
 
 // setting the values
-myMap.set(keyString, "value associated with 'a string'");
-myMap.set(keyObj, "value associated with keyObj");
-myMap.set(keyFunc, "value associated with keyFunc");
+myMap.set(keyString, 'value associated with "a string"')
+myMap.set(keyObj, 'value associated with keyObj')
+myMap.set(keyFunc, 'value associated with keyFunc')
 
 myMap.size; // 3
 
@@ -394,7 +396,7 @@ let o2 = function(){}
 let o3 = window
 
 w.set(o1, 37)
-w.set(o2, "azerty")
+w.set(o2, 'azerty')
 w.set(o3, undefined)
 
 w.get(o3) // undefined, потому что мы установили это значение
@@ -462,18 +464,19 @@ ws.has(window)    // false, window has been removed
 
 <br>
 
-### 13. Classes in ES6
+### 13. Классы в ES6
 
-ES6 introduces new class syntax. One thing to note here is that ES6 class is not a new object-oriented inheritance model. They just serve as a syntactical sugar over JavaScript's existing prototype-based inheritance.
+*MDN:
+[Classes](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Classes)*
 
-One way to look at a class in ES6 is just a new syntax to work with prototypes and contructor functions that we'd use in ES5.
+Классы представляют собой синтаксический сахар существующих в языке прототипных наследований. Синтаксис класса не вводит новую объектно-ориентированную модель наследования, он просто продоставляет гораздо более простой и понятный способ создания объектов.
 
-Functions defined using the `static` keyword implement static/class functions on the class.
+Ключевое слово `static` определяет для класса статический метод. Статические методы вызываются без инстанцирования класса и не могут быть вызваны у экземпляров класса. Статические методы часто используются для создания служебных функций для приложения.
 
 ```javascript
 class Task {
   constructor() {
-    console.log("task instantiated!")
+    console.log('task instantiated!')
   }
 
   showId() {
@@ -481,49 +484,50 @@ class Task {
   }
 
   static loadAll() {
-    console.log("Loading all tasks..")
+    console.log('Loading all tasks..')
   }
 }
 
-console.log(typeof Task); // function
-let task = new Task(); // "task instantiated!"
-task.showId(); // 23
-Task.loadAll(); // "Loading all tasks.."
+console.log(typeof Task) // function
+let task = new Task() // "task instantiated!"
+task.showId() // 23
+Task.loadAll() // "Loading all tasks.."
+task.loadAll() // error: task.loadAll is not a function
 ```
 
-**extends and super in classes**
+**extends and super в классах**
 
-Consider the following code:
+Ключевое слово `extends` используется в объявлениях классов и выражениях классов для создания класса дочернего относительно другого класса.
+
+Ключевое слово `super` используется для вызова функций на родителе объекта.
 
 ```javascript
 class Car {
   constructor() {
-    console.log("Creating a new car")
+    console.log('Creating a new car')
   }
 }
 
 class Porsche extends Car {
   constructor() {
     super()
-    console.log("Creating Porsche")
+    console.log('Creating Porsche')
   }
 }
 
-let c = new Porsche();
+let c = new Porsche()
 // Creating a new car
 // Creating Porsche
 ```
 
-`extends` allow child class to inherit from parent class in ES6. It is important to note that the derived constructor must call super().
+`extends` позволяет дочернему классу наследовать родительский класс, при этом конструктор дочернего класса должен содержать вызов `super()`.
 
-Also, you can call parent class's method in child class's methods using `super.parentMethodName()`
+Использовать метод родительского класса в методах дочернего класса можно с помощью `super.parentMethodName()`.
 
-[Read more about classes here](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Classes)
+**Важно:**
 
-A few things to keep in mind:
-
-* Class declarations are not hoisted. You first need to declare your class and then access it, otherwise ReferenceError will be thrown.
-* There is no need to use `function` keyword when defining functions inside a class definition.
+* Объявлением класса не совершает подъём (*hoisted*). Поэтому вначале необходимо объявить ваш класс и только затем работать с ним, иначе получите ошибку **ReferenceError**.
+* При определении функции внутри определения класса не нужно использовать ключевое слово `function`.
 
 <br>
 
@@ -537,25 +541,25 @@ A few things to keep in mind:
 Создадим символ:
 
 ```javascript
-var sym = Symbol("some optional description");
-console.log(typeof sym); // symbol
+const sym = Symbol('some optional description');
+console.log(typeof sym) // symbol
 ```
 
 **Обратите внимание**, что оператор `new` нельзя использовать c `Symbol(…)`.
 
 ```javascript
-var sym = new Symbol(); // TypeError
+const sym = new Symbol() // TypeError
 ```
 
 Символы невидимы при итерации `for...in`. В дополнение к этому, `Object.getOwnPropertyNames()` не вернет символьные свойства объекта.
 
 ```javascript
-let obj = {
+const obj = {
   val: 10,
-  [ Symbol("random") ]: "I'm a symbol"
+  [ Symbol('random') ]: 'I\'m a symbol'
 }
 
-console.log(Object.getOwnPropertyNames(obj)); // ["val"]
+console.log(Object.getOwnPropertyNames(obj)) // ["val"]
 for (let i in obj) {
   console.log(i) // val
 }
@@ -602,14 +606,14 @@ Note that you can write custom iterators by defining `obj[Symbol.iterator]()` wi
 Генераторы позволяют определить алгоритм перебора, написав единственную функцию, которая умеет поддерживать собственное состояние.
 
 ```javascript
-function *infiniteNumbers() {
+function* infiniteNumbers() {
   let n = 1
   while (true) {
     yield n++
   }
 }
 
-let numbers = infiniteNumbers(); // возвращает итерируемый объект
+let numbers = infiniteNumbers() // возвращает итерируемый объект
 
 console.log(numbers.next()) // { value: 1, done: false }
 console.log(numbers.next()) // { value: 2, done: false }
@@ -629,54 +633,69 @@ console.log(numbers.next()) // { value: 3, done: false }
 
 Интерфейс **Promise** (обещание) представляет собой обертку для значения, неизвестного на момент создания обещания. Он позволяет обрабатывать результаты асинхронных операций так, как если бы они были синхронными: вместо конечного результата асинхронного метода возвращается обещание получить результат в некоторый момент в будущем.
 
-При создании Обещание находится в ожидании (pending), а затем может стать выполнено (fulfilled), вернув полученный результат (значение), или отклонено (rejected), вернув причину отказа. В любом из этих случаев вызывается обработчик, прикрепленный к обещанию методом `then`. Если в момент прикрепления обработчика обещание уже сдержано или нарушено, он все равно будет выполнен, т.е. между выполнением обещания и прикреплением обработчика нет «состояния гонки», как, например, в случае с событиями в DOM.
+При создании Обещание находится в ожидании (**pending**), а затем может стать выполнено (**fulfilled**), вернув полученный результат (значение), или отклонено (**rejected**), вернув причину отказа. В любом из этих случаев вызывается обработчик, прикрепленный к обещанию методом `then`. Если в момент прикрепления обработчика обещание уже сдержано или нарушено, он все равно будет выполнен, т.е. между выполнением обещания и прикреплением обработчика нет «состояния гонки», как, например, в случае с событиями в DOM.
 
-Для создания обещания используется конструктор `new Promise()`, который принимает обработчик. Этот обработчик получает две функции в качестве аргументов. Первый аргумент (обычно называют `resolve`) вызывает успешное выполнение обещания. Второй (обычно называют `reject`) отклоняет это обещание.
+Для создания обещания используется конструктор `new Promise()`, который принимает обработчик. Этот обработчик получает две функции в качестве аргументов. Первый аргумент (обычно называют **resolve**) вызывает успешное выполнение обещания. Второй (обычно называют **reject**) отклоняет это обещание.
 
 ```javascript
-var p = new Promise(function(resolve, reject) {
+var p = new Promise((resolve, reject) => {
   if (/* условие */) {
     resolve(/* значение */)  // операция завершена успешно
   } else {
     reject(/* причина */)  // операция завершена с ошибкой.
   }
-});
+})
 ```
 
-Every Promise has a method named `then` which takes a pair of callbacks. The first callback is called if the promise is resolved, while the second is called if the promise is rejected.
+У обещания есть метод `then`, который принимает такие же аргументы, как и само обещание.
 
 ```javascript
-p.then((val) => console.log("Promise Resolved", val),
-       (err) => console.log("Promise Rejected", err))
+p.then(
+  val => console.log('Promise Resolved', val),
+  err => console.log('Promise Rejected', err)
+)
 ```
 
-Returning a value from `then` callbacks will pass the value to the next `then` callback.
+Возвращаемое значение из `then` передается в следующий `then` через аргумент.
 
 ```javascript
-var hello = new Promise(function(resolve, reject) {
-  resolve("Hello")
+var hello = new Promise((resolve, reject) => {
+  resolve('Hello')
 })
 
-hello.then((str) => `${str} World`)
-  .then((str) => `${str}!`)
-  .then((str) => console.log(str)) // Hello World!
+hello.then(str => `${str} World`)
+  .then(str => `${str}!`)
+  .then(str => console.log(str)) // Hello World!
 ```
 
-When returning a promise, the resolved value of the promise will get passed to the next callback to effectively chain them together.
-This is a simple technique to avoid "callback hell".
+**Очередь асинхронных событий**
+
+Для последовательного выполнения асинхронных действий можно связять вызовы `then`.
+
+Когда ты возвращаешь что-то из колбэка `then`, происходит немного магии. Если ты возвращаешь любое значение, это значение передастся функции обратного вызова следующего `then`. А если ты вернёшь что-то похожее на обещание, следующий `then` подождёт его и вызовет колбэк только когда оно выполнится.
+Это простой способ избежать "ад колбеков (callback hell)".
 
 ```javascript
-var p = new Promise(function(resolve, reject) {
+const p = new Promise((resolve, reject) => {
   resolve(1)
-});
+})
 
-var eventuallyAdd1 = (val) => {
-  return new Promise(function(resolve, reject) {
+const increment = val => {
+  return new Promise((resolve, reject) => {
     resolve(val + 1)
-  });
+  })
 }
 
-p.then(eventuallyAdd1)
-  .then(eventuallyAdd1)
-  .then((val) => console.log(val)) // 3
+p.then(increment)
+  .then(val => {
+    console.log(val) // 2
+    return val
+  })
+  .then(val => val + 1)
+  .then(val => {
+    console.log(val) // 3
+    return val
+  })
+  .then(increment)
+  .then(val => console.log(val)) // 4
 ```

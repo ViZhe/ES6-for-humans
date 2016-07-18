@@ -8,14 +8,14 @@
 * [Стрелочные функции](#2-Стрелочные-функции)
 * [Параметры функции по умолчанию](#3-Параметры-функции-по-умолчанию)
 * [Оператор расширения / Оставшиеся параметры](#4-Оператор-расширения--Оставшиеся-параметры)
-* [Object Literal Extensions](#5-object-literal-extensions)
+* [Расширение литералаов объекта](#5-Расширение-литералаов-объекта)
 * [Восьмеричные и Бинарные литералы](#6-Восьмеричные-и-Бинарные-литералы)
-* [Реструктуризация массивов и объектов](#7-Реструктуризация-массивов-и-объектов)
+* [Деструктуризация массивов и объектов](#7-Деструктуризация-массивов-и-объектов)
 * [super в объектах](#8-super-в-объектах)
 * [Шаблонные строки](#9-Шаблонные-строки)
 * [Отличия for...of и for...in](#10-Отличия-forof-и-forin)
-* [Map and WeakMap](#11-map-and-weakmap)
-* [Set and WeakSet](#12-set-and-weakset)
+* [Map и WeakMap](#11-map-и-weakmap)
+* [Set и WeakSet](#12-set-и-weakset)
 * [Классы в ES6](#13-Классы-в-es6)
 * [Символ](#14-Символ)
 * [Итераторы](#15-Итераторы)
@@ -37,6 +37,10 @@
 *MDN:
 [let](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Statements/let),
 [const](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Statements/const)*
+<br>
+*javascript.ru:
+[let](https://learn.javascript.ru/let-const#let),
+[const](https://learn.javascript.ru/let-const#const)*
 
 Оператор `let` позволяет объявить локальную переменную с ограниченной текущим блоком кода областью видимости. В отличие от ключевого слова `var`, которое объявляет переменную глобально или локально во всей функции независимо от области блока. В ES6 рекомендуется использовать `let`.
 
@@ -63,14 +67,17 @@ console.log(a) // 2
 
 Важно помнить:
 
-* Hoisting of `let` and `const` vary from the traditional hoisting of variables and functions. Both `let` and `const` are hoisted, but cannot be accessed before their declaration, because of [Temporal Dead Zone](http://jsrocks.org/2015/01/temporal-dead-zone-tdz-demystified/)
-* `let` and `const` are scoped to the nearest enclosing block.
-* Имя константы (`const`) принято писать прописными буквами.
+* `let` и `const` видны только после объявления и только в текущем блоке.
+* `let` и `const` нельзя переобъявлять (в том же блоке).
+* Константы, которые жёстко заданы всегда, во время всей программы, обычно пишутся в верхнем регистре.
 * Константа (`const`) должна быть определена при объявлении.
 
 <br>
 
 ### 2. Стрелочные функции
+
+*javascript.ru:
+[Стрелочные функции](https://learn.javascript.ru/es-function#функции-через)*
 
 Выражения стрелочных функций имеют более короткий синтаксис по сравнению с функциональными выражениями и лексически привязаны к значению `this` (но не привязаны к собственному `this`, `arguments`, `super`, `new.target`). Стрелочные функции всегда анонимные.
 
@@ -89,12 +96,9 @@ let additions = (a, b) => { // Блочная форма.
 
 **Обратите внимание**, что в приведенном выше примере стрелочная функция с краткой формой возвращает полученное значение по умолчанию, а блочная форма требует явного возврата значения через `return`.
 
-**Это еще не всё...**
+**Не имеют своего this**
 
-Arrow functions don't just make the code shorter. They are closely related to `this` binding behavior.
-Стрелочные функции не только позволяют сократить код. ...
-
-Arrow functions behavior with `this` keyword varies from that of normal functions. Each function in JavaScript defines its own `this` context but Arrow functions capture the `this` value of the enclosing context. Check out the following code:
+Поведение стрелочной функции с ключевым словом `this` отличается от обычной функции. У каждой обычной функции есть свой `this` контекст, но стрелочная функция захватывает контекст `this` из внешнего контекста.
 
 ```javascript
 function Person() {
@@ -146,6 +150,9 @@ var p = new Person()
 
 ### 3. Параметры функции по умолчанию
 
+*javascript.ru:
+[Параметры по умолчанию](https://learn.javascript.ru/es-function#параметры-по-умолчанию)*
+
 ES6 позволет задавать формальным параметрам функции значения по умолчанию, если для них не указано значение или передан `undefined`.
 
 ```javascript
@@ -164,6 +171,9 @@ console.log(getFinalPrice(50, undefined)) // 600
 *MDN:
 [Spread operator](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Operators/Spread_operator),
 [Rest parameters](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Functions/Rest_parameters)*
+<br>
+*javascript.ru:
+[Spread и Rest](https://learn.javascript.ru/es-function#оператор-spread-вместо-arguments)*
 
 **Оператор расширения** позволяет расширять выражения в тех местах, где предусмотрено использование нескольких аргументов (при вызовах функции) или ожидается несколько элементов (для массивов).
 
@@ -187,10 +197,12 @@ foo(1, 2, 3, 4, 5) // [1, 2, 3, 4, 5]
 
 <br>
 
-### 5. Object Literal Extensions
+### 5. Расширение литералаов объекта
 
-ES6 allows declaring object literals by providing shorthand syntax for initializing properties from variables and defining function methods. It also enables the ability to have computed property keys in an object literal definition.
-ES6 позволяет объявлять литералы объекта
+*javascript.ru:
+[Короткое свойство](https://learn.javascript.ru/es-object#короткое-свойство),
+[Вычисляемые свойства](https://learn.javascript.ru/es-object#вычисляемые-свойства)*
+ES6 позволяет объявлять литералы объекта, использую сокращенный синтаксис для инициализации свойств переменных и свойств-функциий. Так же появилась возможность использовать вычисляемые названия свойств объекта.
 
 
 ```javascript
@@ -245,12 +257,15 @@ console.log(binaryValue) // 2
 
 <br>
 
-### 7. Реструктуризация массивов и объектов
+### 7. Деструктуризация массивов и объектов
 
 *MDN:
 [Destructuring assignment](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment)*
+<br>
+*javascript.ru:
+[Деструктуризация](https://learn.javascript.ru/destructuring)*
 
-Реструктуризация помогает избежать необъодимости создавать временные переменные при работе с массивами и объектами.
+Деструктуризация помогает избежать необъодимости создавать временные переменные при работе с массивами и объектами.
 
 ```javascript
 const arr = [1, 2, 3]
@@ -352,7 +367,7 @@ for (let nickname in nicknames) {
 
 <br>
 
-### 11. Map and WeakMap
+### 11. Map и WeakMap
 
 ES6 introduces new set of data structures called `Map` and `WeakMap`. Now, we actually use maps in JavaScript all the time. Infact every object can be considered as a `Map`.
 
@@ -408,9 +423,15 @@ w.has(o1) // false
 
 <br>
 
-### 12. Set and WeakSet
+### 12. Set и WeakSet
 
-Set objects are collections of unique values. Duplicate values are ignored, as the collection must have all unique values. The values can be primitive types or object references.
+*MDN:
+[Set](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Set)*
+<br>
+*javascript.ru:
+[Set](https://learn.javascript.ru/set-map#set)*
+
+Объекты `Set` представляют коллекции значений, по который вы можете выполнить обход в порядке вставки элементов. Значение элемента (любого типа, как примитивы, так и другие типы объектов) в `Set` может присутствовать только в одном экземпляре, что обеспечивает его уникальность в рамках коллекции `Set`.
 
 ```javascript
 let mySet = new Set([1, 1, 2, 2, 3, 3])
@@ -420,7 +441,9 @@ mySet.add('strings')
 mySet.add({ a: 1, b:2 })
 ```
 
-You can iterate over a set by insertion order using either the `forEach` method or the `for...of` loop.
+`Set` обладает и другими [методами](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Set#Методы).
+
+`forEach` и `for...of` позволяют пройти значения `Set` в порядке их добавления в набор.
 
 ```javascript
 mySet.forEach((item) => {
@@ -441,11 +464,16 @@ for (let value of mySet) {
   // Object { a: 1, b: 2 }
 }
 ```
-Sets also have the `delete()` and `clear()` methods.
 
 **WeakSet**
 
-Similar to `WeakMap`, the `WeakSet` object lets you store weakly held *objects* in a collection. An object in the `WeakSet` occurs only once; it is unique in the WeakSet's collection.
+*MDN:
+[WeakSet](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/WeakSet)*
+<br>
+*javascript.ru:
+[Weakmap и Weakset](https://learn.javascript.ru/set-map#weakmap-и-weakset)*
+
+Объект `WeakSet` - коллекция, элементами которой могут быть только объекты. Ссылки на эти объекты в WeakSet являются слабыми. Каждый объект может быть добавлен в WeakSet только один раз.
 
 ```javascript
 var ws = new WeakSet()
@@ -455,11 +483,11 @@ var foo = {}
 ws.add(window)
 ws.add(obj)
 
-ws.has(window) // true
-ws.has(foo)    // false, foo has not been added to the set
+console.log(ws.has(window)) // true
+console.log(ws.has(foo)) // false, т.к. мы не добавили `foo` в набор
 
-ws.delete(window) // removes window from the set
-ws.has(window)    // false, window has been removed
+ws.delete(window) // удаляет `window` из набора
+console.log(ws.has(window))    // false, т.к. мы удалили `window` из наборы
 ```
 
 <br>
@@ -673,7 +701,7 @@ hello.then(str => `${str} World`)
 Для последовательного выполнения асинхронных действий можно связять вызовы `then`.
 
 Когда ты возвращаешь что-то из колбэка `then`, происходит немного магии. Если ты возвращаешь любое значение, это значение передастся функции обратного вызова следующего `then`. А если ты вернёшь что-то похожее на обещание, следующий `then` подождёт его и вызовет колбэк только когда оно выполнится.
-Это простой способ избежать "ад колбеков (callback hell)".
+Это простой способ избежать "*ад колбеков* (callback hell)".
 
 ```javascript
 const p = new Promise((resolve, reject) => {

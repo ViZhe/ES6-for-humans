@@ -369,9 +369,9 @@ for (let nickname in nicknames) {
 
 ### 11. Map и WeakMap
 
-ES6 introduces new set of data structures called `Map` and `WeakMap`. Now, we actually use maps in JavaScript all the time. Infact every object can be considered as a `Map`.
+ES6 представляет новые структуры данных - `Map` и `WeakMap`. На самом деле, мы используем "Map" в JavaScript всё время. Каждый объект можно представить как частный случай `Map`.
 
-An object is made of keys (always strings) and values, whereas in `Map`, any value (both objects and primitive values) may be used as either a key or a value. Have a look at this piece of code:
+Классический объект состоит из ключей (всегда в строковом виде) и значений, тогда как в `Map` для ключа и значения можно использовать любое значение (и объекты, и примитивы).
 
 ```javascript
 var myMap = new Map()
@@ -395,16 +395,15 @@ myMap.get(keyFunc)      // "value associated with keyFunc"
 
 **WeakMap**
 
-A `WeakMap` is a Map in which the keys are weakly referenced, that doesn’t prevent its keys from being garbage-collected. That means you don't have to worry about memory leaks.
+`WeakMap` это `Map`, в котором ключи обладают неустойчивыми связями, что позволяет не мешать сборщику мусора удалять элементы `WeakMap`. Это означает, что можно не беспокоиться об утечках памяти.
 
-Another thing to note here- in `WeakMap` as opposed to `Map` *every key must be an object*.
+Стоить отметить, что в `WeakMap`, в отличие от `Map`, **каждый ключ должен быть объектом**.
 
-A `WeakMap` only has four methods `delete(key)`, `has(key)`, `get(key)` and `set(key, value)`.
+Для `WeakMap` есть только четыре метода: `delete(key)`, `has(key)`, `get(key)` и `set(key, value)`.
 
 ```javascript
 let w = new WeakMap()
-w.set('a', 'b')
-// Uncaught TypeError: Invalid value used as weak map key
+w.set('a', 'b') // Uncaught TypeError: Invalid value used as weak map key
 
 let o1 = {}
 let o2 = function(){}
@@ -414,11 +413,11 @@ w.set(o1, 37)
 w.set(o2, 'azerty')
 w.set(o3, undefined)
 
-w.get(o3) // undefined, потому что мы установили это значение
+console.log(w.get(o3))  // undefined, потому что мы установили это значение
 
-w.has(o1) // true
+console.log(w.has(o1)) // true
 w.delete(o1)
-w.has(o1) // false
+console.log(w.has(o1)) // false
 ```
 
 <br>
@@ -602,12 +601,11 @@ for (let i in obj) {
 *MDN:
 [Iterators](https://developer.mozilla.org/ru/docs/Web/JavaScript/Guide/Iterators_and_Generators#Итераторы)*
 
-An iterator accesses the items from a collection one at a time, while keeping track of its current position within that sequence.
-Это обеспечивает метод `next()`, который возвращает следующий элемент в последовательности. Этот метод возвращает объект с 2 свойствами: **done** и **value**.
+Итератор обращается к элементам коллекции по одному, в то же время сохраняя память о своей текущей позиции в этой коллекции. У итератора есть метод `next()`, который возвращает следующий элемент в последовательности. Этот метод возвращает объект с двумя свойствами: **done** (окончен ли перебор) и **value** (значение).
 
-ES6 has `Symbol.iterator` which specifies the default iterator for an object. Whenever an object needs to be iterated (such as at the beginning of a for..of loop), its @@iterator method is called with no arguments, and the returned iterator is used to obtain the values to be iterated.
+В ES6 есть метод `Symbol.iterator`, который определяет итератор для объекта по-умолчанию. При каждой необходимости перебора в цикле для объекта (например, в начале цикла `for..of`), его метод итератора вызывается без аргументов, и возвращённый итератор используется для того, чтобы получить значения для перебора.
 
-Let’s look at an array, which is an iterable, and the iterator it can produce to consume its values:
+Посмотрим на массив, который является перебираемым (*iterable*), и на итератор, который есть у массива для обработки его значений:
 
 ```javascript
 let arr = [11, 12, 13]
@@ -620,7 +618,7 @@ console.log(itr.next()) // { value: 13, done: false }
 console.log(itr.next()) // { value: undefined, done: true }
 ```
 
-Note that you can write custom iterators by defining `obj[Symbol.iterator]()` with the object definition.
+Заметим, что можно написать собственный итератор через определение `obj[Symbol.iterator]()` с описанием объекта.
 
 <br>
 
